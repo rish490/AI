@@ -1,0 +1,53 @@
+
+
+
+
+
+
+
+
+Pseudocode Implementation
+# Step 1: Documents
+documents = [
+  "Top 10 coding interview tips",
+  "How to cook pasta",
+  "Guide to system design interviews",
+  "Travel checklist for Paris"
+]
+
+# Step 2: Generate embeddings using a model
+embeddings = [embedding_model.encode(doc) for doc in documents]
+
+# Step 3: Build an ANN index
+index = ANNIndex()   # e.g., FAISS, Milvus, or HNSW-based
+for i, vector in enumerate(embeddings):
+    index.add(id=i, vector=vector)
+
+index.build()  # constructs internal graph/clusters
+
+# Step 4: Query phase
+query = "How to prepare for a software engineering interview"
+query_vec = embedding_model.encode(query)
+
+# Step 5: Find top similar documents
+  #this is very similar to traditional indexing algos like Approximate Nearest Neighbor is used which mostly calculates cosine similarities performance optimisation is done via indexing only for ex 
+  # Build Clusters (during indexing)
+  
+  Before searching, ANN groups vectors into clusters of similar points:
+  
+  Cluster	Vectors	Meaning
+  Cluster A	D1, D2, D5, D6	Pets/Animals (vectors near (1,1)–(2,2))
+  Cluster B	D3, D4, D7, D8	Finance (vectors near (9,9)–(11,11))
+
+
+results = index.search(query_vec, top_k=2)
+
+# Step 6: Return results
+for id, similarity in results:
+    print(f"Document: {documents[id]} | Similarity: {similarity}")
+
+
+Output Example:
+
+Document: Top 10 coding interview tips | Similarity: 0.998
+Document: Guide to system design interviews | Similarity: 0.995
